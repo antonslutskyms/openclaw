@@ -25,6 +25,13 @@ vi.mock("../plugins/web-search-providers.js", () => {
         getConfiguredCredentialValue: getConfigured("brave"),
       },
       {
+        id: "bing",
+        envVars: ["BING_SEARCH_API_KEY"],
+        credentialPath: "plugins.entries.bing.config.webSearch.apiKey",
+        getCredentialValue: getScoped("bing"),
+        getConfiguredCredentialValue: getConfigured("bing"),
+      },
+      {
         id: "firecrawl",
         envVars: ["FIRECRAWL_API_KEY"],
         credentialPath: "plugins.entries.firecrawl.config.webSearch.apiKey",
@@ -155,6 +162,7 @@ describe("web search provider auto-detection", () => {
 
   beforeEach(() => {
     delete process.env.BRAVE_API_KEY;
+    delete process.env.BING_SEARCH_API_KEY;
     delete process.env.FIRECRAWL_API_KEY;
     delete process.env.GEMINI_API_KEY;
     delete process.env.KIMI_API_KEY;
@@ -178,6 +186,11 @@ describe("web search provider auto-detection", () => {
   it("auto-detects brave when only BRAVE_API_KEY is set", () => {
     process.env.BRAVE_API_KEY = "test-brave-key"; // pragma: allowlist secret
     expect(resolveSearchProvider({})).toBe("brave");
+  });
+
+  it("auto-detects bing when only BING_SEARCH_API_KEY is set", () => {
+    process.env.BING_SEARCH_API_KEY = "test-bing-key"; // pragma: allowlist secret
+    expect(resolveSearchProvider({})).toBe("bing");
   });
 
   it("auto-detects gemini when only GEMINI_API_KEY is set", () => {

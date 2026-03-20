@@ -27,6 +27,7 @@ const ignoredDirNames = new Set([
 ]);
 
 const bundledProviderPluginToSearchProvider = new Map([
+  ["bing", "bing"],
   ["brave", "brave"],
   ["firecrawl", "firecrawl"],
   ["google", "gemini"],
@@ -36,6 +37,7 @@ const bundledProviderPluginToSearchProvider = new Map([
 ]);
 
 const providerIds = new Set([
+  "bing",
   "brave",
   "firecrawl",
   "gemini",
@@ -147,7 +149,7 @@ function scanWebSearchProviderRegistry(lines, relativeFile, inventory) {
       });
     }
 
-    const providerMatch = line.match(/id:\s*"(brave|firecrawl|gemini|grok|kimi|perplexity)"/);
+    const providerMatch = line.match(/id:\s*"(bing|brave|firecrawl|gemini|grok|kimi|perplexity)"/);
     if (providerMatch) {
       pushEntry(inventory, {
         provider: providerMatch[1],

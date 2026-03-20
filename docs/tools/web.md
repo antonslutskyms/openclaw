@@ -1,5 +1,5 @@
 ---
-summary: "Web search + fetch tools (Brave, Firecrawl, Gemini, Grok, Kimi, and Perplexity providers)"
+summary: "Web search + fetch tools (Bing, Brave, Firecrawl, Gemini, Grok, Kimi, and Perplexity providers)"
 read_when:
   - You want to enable web_search or web_fetch
   - You need provider API key setup
@@ -11,7 +11,7 @@ title: "Web Tools"
 
 OpenClaw ships two lightweight web tools:
 
-- `web_search` — Search the web using Brave Search API, Firecrawl Search, Gemini with Google Search grounding, Grok, Kimi, or Perplexity Search API.
+- `web_search` — Search the web using Bing Web Search API, Brave Search API, Firecrawl Search, Gemini with Google Search grounding, Grok, Kimi, or Perplexity Search API.
 - `web_fetch` — HTTP fetch + readable extraction (HTML → markdown/text).
 
 These are **not** browser automation. For JS-heavy sites or logins, use the
@@ -26,12 +26,13 @@ These are **not** browser automation. For JS-heavy sites or logins, use the
 - `web_fetch` is enabled by default (unless explicitly disabled).
 - The bundled Firecrawl plugin also adds `firecrawl_search` and `firecrawl_scrape` when enabled.
 
-See [Brave Search setup](/tools/brave-search) and [Perplexity Search setup](/tools/perplexity-search) for provider-specific details.
+See [Bing Search setup](/bing-search), [Brave Search setup](/brave-search), and [Perplexity Search setup](/perplexity) for provider-specific details.
 
 ## Choosing a search provider
 
 | Provider                  | Result shape                       | Provider-specific filters                                    | Notes                                                                          | API key                                     |
 | ------------------------- | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------- |
+| **Bing Web Search API**   | Structured results with snippets   | `mkt`, `safesearch`                                          | Azure Cognitive Services Bing Search v7                                        | `BING_SEARCH_API_KEY`                       |
 | **Brave Search API**      | Structured results with snippets   | `country`, `language`, `ui_lang`, time                       | Supports Brave `llm-context` mode                                              | `BRAVE_API_KEY`                             |
 | **Firecrawl Search**      | Structured results with snippets   | Use `firecrawl_search` for Firecrawl-specific search options | Best for pairing search with Firecrawl scraping/extraction                     | `FIRECRAWL_API_KEY`                         |
 | **Gemini**                | AI-synthesized answers + citations | —                                                            | Uses Google Search grounding                                                   | `GEMINI_API_KEY`                            |
@@ -45,10 +46,11 @@ The table above is alphabetical. If no `provider` is explicitly set, runtime aut
 
 1. **Brave** — `BRAVE_API_KEY` env var or `plugins.entries.brave.config.webSearch.apiKey`
 2. **Gemini** — `GEMINI_API_KEY` env var or `plugins.entries.google.config.webSearch.apiKey`
-3. **Grok** — `XAI_API_KEY` env var or `plugins.entries.xai.config.webSearch.apiKey`
-4. **Kimi** — `KIMI_API_KEY` / `MOONSHOT_API_KEY` env var or `plugins.entries.moonshot.config.webSearch.apiKey`
-5. **Perplexity** — `PERPLEXITY_API_KEY`, `OPENROUTER_API_KEY`, or `plugins.entries.perplexity.config.webSearch.apiKey`
-6. **Firecrawl** — `FIRECRAWL_API_KEY` env var or `plugins.entries.firecrawl.config.webSearch.apiKey`
+3. **Bing** — `BING_SEARCH_API_KEY` env var or `plugins.entries.bing.config.webSearch.apiKey`
+4. **Grok** — `XAI_API_KEY` env var or `plugins.entries.xai.config.webSearch.apiKey`
+5. **Kimi** — `KIMI_API_KEY` / `MOONSHOT_API_KEY` env var or `plugins.entries.moonshot.config.webSearch.apiKey`
+6. **Perplexity** — `PERPLEXITY_API_KEY`, `OPENROUTER_API_KEY`, or `plugins.entries.perplexity.config.webSearch.apiKey`
+7. **Firecrawl** — `FIRECRAWL_API_KEY` env var or `plugins.entries.firecrawl.config.webSearch.apiKey`
 
 If no keys are found, it falls back to Brave (you'll get a missing-key error prompting you to configure one).
 
@@ -92,6 +94,7 @@ See [Perplexity Search API Docs](https://docs.perplexity.ai/guides/search-quicks
 **Via config:** run `openclaw configure --section web`. It stores the key under the provider-specific config path:
 
 - Brave: `plugins.entries.brave.config.webSearch.apiKey`
+- Bing: `plugins.entries.bing.config.webSearch.apiKey`
 - Firecrawl: `plugins.entries.firecrawl.config.webSearch.apiKey`
 - Gemini: `plugins.entries.google.config.webSearch.apiKey`
 - Grok: `plugins.entries.xai.config.webSearch.apiKey`
@@ -103,6 +106,7 @@ All of these fields also support SecretRef objects.
 **Via environment:** set provider env vars in the Gateway process environment:
 
 - Brave: `BRAVE_API_KEY`
+- Bing: `BING_SEARCH_API_KEY`
 - Firecrawl: `FIRECRAWL_API_KEY`
 - Gemini: `GEMINI_API_KEY`
 - Grok: `XAI_API_KEY`
@@ -321,6 +325,7 @@ Search the web using your configured provider.
 - `tools.web.search.enabled` must not be `false` (default: enabled)
 - API key for your chosen provider:
   - **Brave**: `BRAVE_API_KEY` or `plugins.entries.brave.config.webSearch.apiKey`
+  - **Bing**: `BING_SEARCH_API_KEY` or `plugins.entries.bing.config.webSearch.apiKey`
   - **Firecrawl**: `FIRECRAWL_API_KEY` or `plugins.entries.firecrawl.config.webSearch.apiKey`
   - **Gemini**: `GEMINI_API_KEY` or `plugins.entries.google.config.webSearch.apiKey`
   - **Grok**: `XAI_API_KEY` or `plugins.entries.xai.config.webSearch.apiKey`

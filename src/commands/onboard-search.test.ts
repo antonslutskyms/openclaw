@@ -129,6 +129,19 @@ describe("setupSearch", () => {
     expect(result.plugins?.entries?.firecrawl?.enabled).toBe(true);
   });
 
+  it("sets provider and key for bing and enables the plugin", async () => {
+    const cfg: OpenClawConfig = {};
+    const { prompter } = createPrompter({
+      selectValue: "bing",
+      textValue: "bing-test-key",
+    });
+    const result = await setupSearch(cfg, runtime, prompter);
+    expect(result.tools?.web?.search?.provider).toBe("bing");
+    expect(result.tools?.web?.search?.enabled).toBe(true);
+    expect(result.tools?.web?.search?.bing?.apiKey).toBe("bing-test-key");
+    expect(result.plugins?.entries?.bing?.enabled).toBe(true);
+  });
+
   it("sets provider and key for grok", async () => {
     const cfg: OpenClawConfig = {};
     const { prompter } = createPrompter({
@@ -344,9 +357,9 @@ describe("setupSearch", () => {
     expect(result.tools?.web?.search?.apiKey).toBe("BSA-plain");
   });
 
-  it("exports all 6 providers in SEARCH_PROVIDER_OPTIONS", () => {
-    expect(SEARCH_PROVIDER_OPTIONS).toHaveLength(6);
+  it("exports all bundled providers in SEARCH_PROVIDER_OPTIONS", () => {
+    expect(SEARCH_PROVIDER_OPTIONS).toHaveLength(7);
     const values = SEARCH_PROVIDER_OPTIONS.map((e) => e.value);
-    expect(values).toEqual(["brave", "gemini", "grok", "kimi", "perplexity", "firecrawl"]);
+    expect(values).toEqual(["brave", "gemini", "bing", "grok", "kimi", "perplexity", "firecrawl"]);
   });
 });

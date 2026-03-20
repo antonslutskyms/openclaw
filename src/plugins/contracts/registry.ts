@@ -1,5 +1,6 @@
 import amazonBedrockPlugin from "../../../extensions/amazon-bedrock/index.js";
 import anthropicPlugin from "../../../extensions/anthropic/index.js";
+import bingPlugin from "../../../extensions/bing/index.js";
 import bravePlugin from "../../../extensions/brave/index.js";
 import byteplusPlugin from "../../../extensions/byteplus/index.js";
 import chutesPlugin from "../../../extensions/chutes/index.js";
@@ -79,6 +80,7 @@ type PluginRegistrationContractEntry = {
 };
 
 const bundledWebSearchPlugins: Array<RegistrablePlugin & { credentialValue: unknown }> = [
+  { ...bingPlugin, credentialValue: "bing-test-key" },
   { ...bravePlugin, credentialValue: "BSA-test" },
   { ...firecrawlPlugin, credentialValue: "fc-test" },
   { ...googlePlugin, credentialValue: "AIza-test" },

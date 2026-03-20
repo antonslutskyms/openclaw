@@ -1,0 +1,10 @@
+{
+  "name": "@openclaw/bing-plugin",
+  "version": "2026.3.14",
+  "private": true,
+  "description": "OpenClaw Bing Web Search API plugin",
+  "type": "module",
+  "openclaw": {
+    "extensions": ["./index.ts"]
+  }
+}

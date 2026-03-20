@@ -1,0 +1,39 @@
+{
+  "id": "bing",
+  "uiHints": {
+    "webSearch.apiKey": {
+      "label": "Bing Web Search API key",
+      "help": "Azure Bing Web Search subscription key (fallback: BING_SEARCH_API_KEY env var).",
+      "sensitive": true,
+      "placeholder": "Azure subscription key"
+    },
+    "webSearch.endpoint": {
+      "label": "Bing search endpoint URL",
+      "help": "Optional. Default: https://api.bing.microsoft.com/v7.0/search"
+    },
+    "webSearch.mkt": {
+      "label": "Bing market (mkt)",
+      "help": "Optional market/locale, e.g. en-US, en-GB, de-DE."
+    },
+    "webSearch.safesearch": {
+      "label": "SafeSearch",
+      "help": "Off, Moderate (default), or Strict."
+    }
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "webSearch": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "apiKey": { "type": ["string", "object"] },
+          "endpoint": { "type": "string" },
+          "mkt": { "type": "string" },
+          "safesearch": { "type": "string", "enum": ["Off", "Moderate", "Strict"] }
+        }
+      }
+    }
+  }
+}

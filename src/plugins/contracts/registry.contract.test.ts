@@ -141,6 +141,7 @@ describe("plugin contract registry", () => {
   });
 
   it("keeps bundled web search ownership explicit", () => {
+    expect(findWebSearchIdsForPlugin("bing")).toEqual(["bing"]);
     expect(findWebSearchIdsForPlugin("brave")).toEqual(["brave"]);
     expect(findWebSearchIdsForPlugin("firecrawl")).toEqual(["firecrawl"]);
     expect(findWebSearchIdsForPlugin("google")).toEqual(["gemini"]);
@@ -175,6 +176,14 @@ describe("plugin contract registry", () => {
   });
 
   it("keeps bundled provider and web search tool ownership explicit", () => {
+    expect(findRegistrationForPlugin("bing")).toMatchObject({
+      providerIds: [],
+      speechProviderIds: [],
+      mediaUnderstandingProviderIds: [],
+      imageGenerationProviderIds: [],
+      webSearchProviderIds: ["bing"],
+      toolNames: [],
+    });
     expect(findRegistrationForPlugin("firecrawl")).toMatchObject({
       providerIds: [],
       speechProviderIds: [],

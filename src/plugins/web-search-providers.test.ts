@@ -10,6 +10,7 @@ import {
 const BUNDLED_WEB_SEARCH_PROVIDERS = [
   { pluginId: "brave", id: "brave", order: 10 },
   { pluginId: "google", id: "gemini", order: 20 },
+  { pluginId: "bing", id: "bing", order: 25 },
   { pluginId: "xai", id: "grok", order: 30 },
   { pluginId: "moonshot", id: "kimi", order: 40 },
   { pluginId: "perplexity", id: "perplexity", order: 50 },
@@ -54,7 +55,9 @@ const { loadOpenClawPluginsMock } = vi.hoisted(() => ({
         getCredentialValue: () => "configured",
         setCredentialValue: () => {},
         applySelectionConfig:
-          provider.id === "firecrawl" ? (config: OpenClawConfig) => config : undefined,
+          provider.id === "firecrawl" || provider.id === "bing"
+            ? (config: OpenClawConfig) => config
+            : undefined,
         resolveRuntimeMetadata:
           provider.id === "perplexity"
             ? () => ({
@@ -91,6 +94,7 @@ describe("resolvePluginWebSearchProviders", () => {
     expect(providers.map((provider) => `${provider.pluginId}:${provider.id}`)).toEqual([
       "brave:brave",
       "google:gemini",
+      "bing:bing",
       "xai:grok",
       "moonshot:kimi",
       "perplexity:perplexity",
@@ -99,12 +103,16 @@ describe("resolvePluginWebSearchProviders", () => {
     expect(providers.map((provider) => provider.credentialPath)).toEqual([
       "plugins.entries.brave.config.webSearch.apiKey",
       "plugins.entries.google.config.webSearch.apiKey",
+      "plugins.entries.bing.config.webSearch.apiKey",
       "plugins.entries.xai.config.webSearch.apiKey",
       "plugins.entries.moonshot.config.webSearch.apiKey",
       "plugins.entries.perplexity.config.webSearch.apiKey",
       "plugins.entries.firecrawl.config.webSearch.apiKey",
     ]);
     expect(providers.find((provider) => provider.id === "firecrawl")?.applySelectionConfig).toEqual(
+      expect.any(Function),
+    );
+    expect(providers.find((provider) => provider.id === "bing")?.applySelectionConfig).toEqual(
       expect.any(Function),
     );
     expect(
@@ -125,6 +133,7 @@ describe("resolvePluginWebSearchProviders", () => {
     expect(providers.map((provider) => provider.pluginId)).toEqual([
       "brave",
       "google",
+      "bing",
       "xai",
       "moonshot",
       "perplexity",

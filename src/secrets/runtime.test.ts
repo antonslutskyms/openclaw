@@ -14,7 +14,14 @@ import {
   prepareSecretsRuntimeSnapshot,
 } from "./runtime.js";
 
-type WebProviderUnderTest = "brave" | "gemini" | "grok" | "kimi" | "perplexity" | "firecrawl";
+type WebProviderUnderTest =
+  | "bing"
+  | "brave"
+  | "gemini"
+  | "grok"
+  | "kimi"
+  | "perplexity"
+  | "firecrawl";
 
 const { resolvePluginWebSearchProvidersMock } = vi.hoisted(() => ({
   resolvePluginWebSearchProvidersMock: vi.fn(() => buildTestWebSearchProviders()),
@@ -85,6 +92,7 @@ function buildTestWebSearchProviders(): PluginWebSearchProviderEntry[] {
   return [
     createTestProvider({ id: "brave", pluginId: "brave", order: 10 }),
     createTestProvider({ id: "gemini", pluginId: "google", order: 20 }),
+    createTestProvider({ id: "bing", pluginId: "bing", order: 25 }),
     createTestProvider({ id: "grok", pluginId: "xai", order: 30 }),
     createTestProvider({ id: "kimi", pluginId: "moonshot", order: 40 }),
     createTestProvider({ id: "perplexity", pluginId: "perplexity", order: 50 }),

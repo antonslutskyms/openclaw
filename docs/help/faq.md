@@ -13,7 +13,7 @@ Quick answers plus deeper troubleshooting for real-world setups (local dev, VPS,
 ## Table of contents
 
 - [Quick start and first-run setup]
-  - [I am stuck, fastest way to get unstuck](#i-am-stuck-fastest-way-to-get-unstuck)
+  - [I am stuck - fastest way to get unstuck](#i-am-stuck---fastest-way-to-get-unstuck)
   - [Recommended way to install and set up OpenClaw](#recommended-way-to-install-and-set-up-openclaw)
   - [How do I open the dashboard after onboarding?](#how-do-i-open-the-dashboard-after-onboarding)
   - [How do I authenticate the dashboard (token) on localhost vs remote?](#how-do-i-authenticate-the-dashboard-token-on-localhost-vs-remote)
@@ -267,7 +267,7 @@ Quick answers plus deeper troubleshooting for real-world setups (local dev, VPS,
 
 ## Quick start and first-run setup
 
-### I am stuck, fastest way to get unstuck
+### I am stuck - fastest way to get unstuck
 
 Use a local AI agent that can **see your machine**. That is far more effective than asking
 in Discord, because most "I'm stuck" cases are **local config or environment issues** that
@@ -449,7 +449,7 @@ section is the latest shipped version. Entries are grouped by **Highlights**, **
 
 Some Comcast/Xfinity connections incorrectly block `docs.openclaw.ai` via Xfinity
 Advanced Security. Disable it or allowlist `docs.openclaw.ai`, then retry. More
-detail: [Troubleshooting](/help/faq#docsopenclawai-shows-an-ssl-error-comcast-xfinity).
+detail: [Troubleshooting](/help/troubleshooting#docsopenclawai-shows-an-ssl-error-comcastxfinity).
 Please help us unblock it by reporting here: [https://spa.xfinity.com/check_url_status](https://spa.xfinity.com/check_url_status).
 
 If you still can't reach the site, the docs are mirrored on GitHub:
@@ -497,7 +497,7 @@ Rough guide:
 - **Onboarding:** 5-15 minutes depending on how many channels/models you configure
 
 If it hangs, use [Installer stuck](/help/faq#installer-stuck-how-do-i-get-more-feedback)
-and the fast debug loop in [I am stuck](/help/faq#i-am-stuck-fastest-way-to-get-unstuck).
+and the fast debug loop in [I am stuck](/help/faq#i-am-stuck---fastest-way-to-get-unstuck).
 
 ### How do I try the latest bits
 
@@ -858,7 +858,7 @@ Third-party (less private):
 
 - DM `@userinfobot` or `@getidsbot`.
 
-See [/channels/telegram](/channels/telegram#access-control-and-activation).
+See [/channels/telegram](/channels/telegram#access-control-dms--groups).
 
 ### Can multiple people use one WhatsApp number with different OpenClaw instances
 
@@ -1259,7 +1259,7 @@ Use `agents.defaults.sandbox.mode: "non-main"` so group/channel sessions (non-ma
 
 Setup walkthrough + example config: [Groups: personal DMs + public groups](/channels/groups#pattern-personal-dms-public-groups-single-agent)
 
-Key config reference: [Gateway configuration](/gateway/configuration-reference#agents-defaults-sandbox)
+Key config reference: [Gateway configuration](/gateway/configuration#agentsdefaultssandbox)
 
 ### How do I bind a host folder into the sandbox
 
@@ -1493,11 +1493,13 @@ Set `cli.banner.taglineMode` in config:
 ### How do I enable web search and web fetch
 
 `web_fetch` works without an API key. `web_search` requires a key for your
-selected provider (Brave, Gemini, Grok, Kimi, or Perplexity).
+selected provider (Bing, Brave, Firecrawl, Gemini, Grok, Kimi, or Perplexity).
 **Recommended:** run `openclaw configure --section web` and choose a provider.
 Environment alternatives:
 
 - Brave: `BRAVE_API_KEY`
+- Bing: `BING_SEARCH_API_KEY`
+- Firecrawl: `FIRECRAWL_API_KEY`
 - Gemini: `GEMINI_API_KEY`
 - Grok: `XAI_API_KEY`
 - Kimi: `KIMI_API_KEY` or `MOONSHOT_API_KEY`
@@ -2293,7 +2295,7 @@ Aliases come from `agents.defaults.models.<modelId>.alias`. Example:
       model: { primary: "anthropic/claude-opus-4-6" },
       models: {
         "anthropic/claude-opus-4-6": { alias: "opus" },
-        "anthropic/claude-sonnet-4-6": { alias: "sonnet" },
+        "anthropic/claude-sonnet-4-5": { alias: "sonnet" },
         "anthropic/claude-haiku-4-5": { alias: "haiku" },
       },
     },
@@ -2311,8 +2313,8 @@ OpenRouter (pay-per-token; many models):
 {
   agents: {
     defaults: {
-      model: { primary: "openrouter/anthropic/claude-sonnet-4-6" },
-      models: { "openrouter/anthropic/claude-sonnet-4-6": {} },
+      model: { primary: "openrouter/anthropic/claude-sonnet-4-5" },
+      models: { "openrouter/anthropic/claude-sonnet-4-5": {} },
     },
   },
   env: { OPENROUTER_API_KEY: "sk-or-..." },
@@ -2635,7 +2637,7 @@ Service/supervisor logs (when the gateway runs via launchd/systemd):
 - Linux: `journalctl --user -u openclaw-gateway[-<profile>].service -n 200 --no-pager`
 - Windows: `schtasks /Query /TN "OpenClaw Gateway (<profile>)" /V /FO LIST`
 
-See [Troubleshooting](/gateway/troubleshooting) for more.
+See [Troubleshooting](/gateway/troubleshooting#log-locations) for more.
 
 ### How do I start/stop/restart the Gateway service
 
@@ -2917,7 +2919,7 @@ If it is still noisy, check the session settings in the Control UI and set verbo
 to **inherit**. Also confirm you are not using a bot profile with `verboseDefault` set
 to `on` in config.
 
-Docs: [Thinking and verbose](/tools/thinking), [Security](/gateway/security#reasoning-verbose-output-in-groups).
+Docs: [Thinking and verbose](/tools/thinking), [Security](/gateway/security#reasoning--verbose-output-in-groups).
 
 ### How do I stopcancel a running task
 
@@ -3000,7 +3002,7 @@ You can add options like `debounce:2s cap:25 drop:summarize` for followup modes.
 
 **Q: "What's the default model for Anthropic with an API key?"**
 
-**A:** In OpenClaw, credentials and model selection are separate. Setting `ANTHROPIC_API_KEY` (or storing an Anthropic API key in auth profiles) enables authentication, but the actual default model is whatever you configure in `agents.defaults.model.primary` (for example, `anthropic/claude-sonnet-4-6` or `anthropic/claude-opus-4-6`). If you see `No credentials found for profile "anthropic:default"`, it means the Gateway couldn't find Anthropic credentials in the expected `auth-profiles.json` for the agent that's running.
+**A:** In OpenClaw, credentials and model selection are separate. Setting `ANTHROPIC_API_KEY` (or storing an Anthropic API key in auth profiles) enables authentication, but the actual default model is whatever you configure in `agents.defaults.model.primary` (for example, `anthropic/claude-sonnet-4-5` or `anthropic/claude-opus-4-6`). If you see `No credentials found for profile "anthropic:default"`, it means the Gateway couldn't find Anthropic credentials in the expected `auth-profiles.json` for the agent that's running.
 
 ---
 

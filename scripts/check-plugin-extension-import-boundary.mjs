@@ -21,6 +21,7 @@ const baselinePath = path.join(
 );
 
 const bundledWebSearchProviders = new Set([
+  "bing",
   "brave",
   "firecrawl",
   "gemini",
@@ -29,6 +30,7 @@ const bundledWebSearchProviders = new Set([
   "perplexity",
 ]);
 const bundledWebSearchPluginIds = new Set([
+  "bing",
   "brave",
   "firecrawl",
   "google",
@@ -176,7 +178,7 @@ function scanWebSearchRegistrySmells(sourceFile, filePath) {
       });
     }
 
-    const providerMatch = line.match(/id:\s*"(brave|firecrawl|gemini|grok|kimi|perplexity)"/);
+    const providerMatch = line.match(/id:\s*"(bing|brave|firecrawl|gemini|grok|kimi|perplexity)"/);
     if (providerMatch && bundledWebSearchProviders.has(providerMatch[1])) {
       pushEntry(entries, {
         file: relativeFile,

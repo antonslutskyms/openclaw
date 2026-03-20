@@ -17,7 +17,7 @@ vi.mock("../plugins/web-search-providers.js", () => ({
 }));
 
 function createTestProvider(params: {
-  id: "brave" | "gemini" | "grok" | "kimi" | "perplexity" | "firecrawl";
+  id: "bing" | "brave" | "gemini" | "grok" | "kimi" | "perplexity" | "firecrawl";
   pluginId: string;
   order: number;
 }): PluginWebSearchProviderEntry {
@@ -73,6 +73,7 @@ function buildTestWebSearchProviders(): PluginWebSearchProviderEntry[] {
   return [
     createTestProvider({ id: "brave", pluginId: "brave", order: 10 }),
     createTestProvider({ id: "gemini", pluginId: "google", order: 20 }),
+    createTestProvider({ id: "bing", pluginId: "bing", order: 25 }),
     createTestProvider({ id: "grok", pluginId: "xai", order: 30 }),
     createTestProvider({ id: "kimi", pluginId: "moonshot", order: 40 }),
     createTestProvider({ id: "perplexity", pluginId: "perplexity", order: 50 }),
@@ -163,6 +164,9 @@ function buildConfigForOpenClawTarget(entry: SecretRegistryEntry, envId: string)
   }
   if (entry.id === "plugins.entries.brave.config.webSearch.apiKey") {
     setPathCreateStrict(config, ["tools", "web", "search", "provider"], "brave");
+  }
+  if (entry.id === "plugins.entries.bing.config.webSearch.apiKey") {
+    setPathCreateStrict(config, ["tools", "web", "search", "provider"], "bing");
   }
   if (entry.id === "tools.web.search.gemini.apiKey") {
     setPathCreateStrict(config, ["tools", "web", "search", "provider"], "gemini");
